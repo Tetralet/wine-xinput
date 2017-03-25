@@ -1,7 +1,6 @@
-diff --git a/dlls/xinput1_3/Makefile.in b/dlls/xinput1_3/Makefile.in
-index cf8f730..37621fa 100644
---- a/dlls/xinput1_3/Makefile.in
-+++ b/dlls/xinput1_3/Makefile.in
+diff -Nur wine-devel-2.2.orig/dlls/xinput1_3/Makefile.in wine-devel-2.2/dlls/xinput1_3/Makefile.in
+--- wine-devel-2.2.orig/dlls/xinput1_3/Makefile.in	2017-02-24 11:46:40.125633348 +0800
++++ wine-devel-2.2/dlls/xinput1_3/Makefile.in	2017-02-25 13:01:03.717879317 +0800
 @@ -1,5 +1,6 @@
  MODULE    = xinput1_3.dll
  IMPORTLIB = xinput
@@ -9,10 +8,9 @@ index cf8f730..37621fa 100644
  
  C_SRCS = \
  	xinput1_3_main.c
-diff --git a/dlls/xinput1_3/xinput1_3_main.c b/dlls/xinput1_3/xinput1_3_main.c
-index 5f88ca1..074f7c9 100644
---- a/dlls/xinput1_3/xinput1_3_main.c
-+++ b/dlls/xinput1_3/xinput1_3_main.c
+diff -Nur wine-devel-2.2.orig/dlls/xinput1_3/xinput1_3_main.c wine-devel-2.2/dlls/xinput1_3/xinput1_3_main.c
+--- wine-devel-2.2.orig/dlls/xinput1_3/xinput1_3_main.c	2017-02-24 11:46:40.125633348 +0800
++++ wine-devel-2.2/dlls/xinput1_3/xinput1_3_main.c	2017-02-25 13:01:03.717879317 +0800
 @@ -1,6 +1,7 @@
  /*
   * The Wine project - Xinput Joystick Library
@@ -417,7 +415,7 @@ index 5f88ca1..074f7c9 100644
  BOOL WINAPI DllMain(HINSTANCE inst, DWORD reason, LPVOID reserved)
  {
      switch(reason)
-@@ -52,23 +421,54 @@ BOOL WINAPI DllMain(HINSTANCE inst, DWORD reason, LPVOID reserved)
+@@ -52,23 +421,54 @@
  
  void WINAPI DECLSPEC_HOTPATCH XInputEnable(BOOL enable)
  {
@@ -479,15 +477,15 @@ index 5f88ca1..074f7c9 100644
  }
  
  DWORD WINAPI DECLSPEC_HOTPATCH XInputGetState(DWORD index, XINPUT_STATE* state)
-@@ -79,62 +479,116 @@ DWORD WINAPI DECLSPEC_HOTPATCH XInputGetState(DWORD index, XINPUT_STATE* state)
+@@ -79,65 +479,113 @@
          XINPUT_STATE_EX state_ex;
      } xinput;
      DWORD ret;
 -    static int warn_once;
- 
+-
 -    if (!warn_once++)
 -        FIXME("(index %u, state %p) Stub!\n", index, state);
-+    TRACE("(%u %p)\n", index, state);
++    TRACE("(index %u, state %p) Stub!\n", index, state);
  
      ret = XInputGetStateEx(index, &xinput.state_ex);
      if (ret != ERROR_SUCCESS)
@@ -504,10 +502,10 @@ index 5f88ca1..074f7c9 100644
  DWORD WINAPI DECLSPEC_HOTPATCH XInputGetStateEx(DWORD index, XINPUT_STATE_EX* state_ex)
  {
 -    static int warn_once;
-+    TRACE("(%u %p)\n", index, state_ex);
- 
+-
 -    if (!warn_once++)
 -        FIXME("(index %u, state %p) Stub!\n", index, state_ex);
++    TRACE("(index %u, state %p) Stub!\n", index, state_ex);
 +    STARTUP_DINPUT
  
      if (index >= XUSER_MAX_COUNT)
@@ -528,7 +526,11 @@ index 5f88ca1..074f7c9 100644
  
  DWORD WINAPI XInputGetKeystroke(DWORD index, DWORD reserved, PXINPUT_KEYSTROKE keystroke)
  {
-     FIXME("(index %u, reserved %u, keystroke %p) Stub!\n", index, reserved, keystroke);
+-    static int warn_once;
+-
+-    if (!warn_once++)
+-        FIXME("(index %u, reserved %u, keystroke %p) Stub!\n", index, reserved, keystroke);
++    TRACE("(index %u, reserved %u, keystroke %p) Stub!\n", index, reserved, keystroke);
  
 -    if (index >= XUSER_MAX_COUNT)
 -        return ERROR_BAD_ARGUMENTS;
@@ -555,11 +557,11 @@ index 5f88ca1..074f7c9 100644
  DWORD WINAPI XInputGetCapabilities(DWORD index, DWORD flags, XINPUT_CAPABILITIES* capabilities)
  {
 -    static int warn_once;
-+    WORD bits = 0, i;
-+    TRACE("(%u %d %p)\n", index, flags, capabilities);
- 
+-
 -    if (!warn_once++)
 -        FIXME("(index %u, flags 0x%x, capabilities %p) Stub!\n", index, flags, capabilities);
++    WORD bits = 0, i;
++    TRACE("(index %u, flags 0x%x, capabilities %p) Stub!\n", index, flags, capabilities);
 +    STARTUP_DINPUT
  
      if (index >= XUSER_MAX_COUNT)
@@ -613,7 +615,7 @@ index 5f88ca1..074f7c9 100644
  }
  
  DWORD WINAPI XInputGetDSoundAudioDeviceGuids(DWORD index, GUID* render_guid, GUID* capture_guid)
-@@ -146,17 +600,43 @@ DWORD WINAPI XInputGetDSoundAudioDeviceGuids(DWORD index, GUID* render_guid, GUI
+@@ -149,17 +597,43 @@
      if (!controllers[index].connected)
          return ERROR_DEVICE_NOT_CONNECTED;
  
@@ -631,7 +633,7 @@ index 5f88ca1..074f7c9 100644
  DWORD WINAPI XInputGetBatteryInformation(DWORD index, BYTE type, XINPUT_BATTERY_INFORMATION* battery)
  {
 -    FIXME("(index %u, type %u, battery %p) Stub!\n", index, type, battery);
-+    TRACE("(%u %u %p) Stub!\n", index, type, battery);
++    TRACE("(index %u, type %u, battery %p) Stub!\n", index, type, battery);
 +
 +    STARTUP_DINPUT
  
@@ -660,3 +662,26 @@ index 5f88ca1..074f7c9 100644
 -    return ERROR_NOT_SUPPORTED;
 +    return ERROR_SUCCESS;
  }
+diff -Nur wine-devel-2.2.orig/dlls/xinput9_1_0/Makefile.in wine-devel-2.2/dlls/xinput9_1_0/Makefile.in
+--- wine-devel-2.2.orig/dlls/xinput9_1_0/Makefile.in	2017-02-24 11:47:48.453632372 +0800
++++ wine-devel-2.2/dlls/xinput9_1_0/Makefile.in	2017-02-25 13:01:03.717879317 +0800
+@@ -1,7 +1,2 @@
+ MODULE    = xinput9_1_0.dll
+ PARENTSRC = ../xinput1_3
+-
+-C_SRCS = \
+-	xinput1_3_main.c
+-
+-RC_SRCS = version.rc
+diff -Nur wine-devel-2.2.orig/dlls/xinput9_1_0/xinput9_1_0.spec wine-devel-2.2/dlls/xinput9_1_0/xinput9_1_0.spec
+--- wine-devel-2.2.orig/dlls/xinput9_1_0/xinput9_1_0.spec	2017-02-24 11:47:48.453632372 +0800
++++ wine-devel-2.2/dlls/xinput9_1_0/xinput9_1_0.spec	2017-02-25 13:01:03.717879317 +0800
+@@ -1,4 +1,4 @@
+-@ stdcall XInputGetCapabilities(long long ptr)
+-@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr)
+-@ stdcall XInputSetState(long ptr)
+-@ stdcall XInputGetState(long ptr)
++@ stdcall XInputGetCapabilities(long long ptr) xinput1_3.XInputGetCapabilities
++@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr) xinput1_3.XInputGetDSoundAudioDeviceGuids
++@ stdcall XInputSetState(long ptr) xinput1_3.XInputSetState
++@ stdcall XInputGetState(long ptr) xinput1_3.XInputGetState
