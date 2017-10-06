@@ -1,16 +1,66 @@
-diff -Nur wine-devel-2.2.orig/dlls/xinput1_3/Makefile.in wine-devel-2.2/dlls/xinput1_3/Makefile.in
---- wine-devel-2.2.orig/dlls/xinput1_3/Makefile.in	2017-02-24 11:46:40.125633348 +0800
-+++ wine-devel-2.2/dlls/xinput1_3/Makefile.in	2017-02-25 13:01:03.717879317 +0800
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_1/Makefile.in wine-staging-2.18.0/dlls/xinput1_1/Makefile.in
+--- wine-staging-2.18.0.orig/dlls/xinput1_1/Makefile.in	2017-10-06 09:02:37.762280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_1/Makefile.in	2017-10-06 16:08:19.258381219 +0800
+@@ -1,7 +1,2 @@
+ MODULE    = xinput1_1.dll
+ PARENTSRC = ../xinput1_3
+-
+-C_SRCS = \
+-	xinput_main.c
+-
+-RC_SRCS = version.rc
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_1/xinput1_1.spec wine-staging-2.18.0/dlls/xinput1_1/xinput1_1.spec
+--- wine-staging-2.18.0.orig/dlls/xinput1_1/xinput1_1.spec	2017-10-06 09:02:37.762280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_1/xinput1_1.spec	2017-10-06 16:08:19.258381219 +0800
+@@ -1,5 +1,5 @@
+-@ stdcall XInputEnable(long)
+-@ stdcall XInputGetCapabilities(long long ptr)
+-@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr)
+-@ stdcall XInputSetState(long ptr)
+-@ stdcall XInputGetState(long ptr)
++@ stdcall XInputEnable(long) xinput1_3.Enable
++@ stdcall XInputGetCapabilities(long long ptr) xinput1_3.GetCapabilities
++@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr) xinput1_3.GetDSoundAudioDeviceGuids
++@ stdcall XInputSetState(long ptr) xinput1_3.SetState
++@ stdcall XInputGetState(long ptr) xinput1_3.GetState
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_2/Makefile.in wine-staging-2.18.0/dlls/xinput1_2/Makefile.in
+--- wine-staging-2.18.0.orig/dlls/xinput1_2/Makefile.in	2017-10-06 09:02:37.762280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_2/Makefile.in	2017-10-06 16:08:19.270381219 +0800
+@@ -1,7 +1,2 @@
+ MODULE    = xinput1_2.dll
+ PARENTSRC = ../xinput1_3
+-
+-C_SRCS = \
+-	xinput_main.c
+-
+-RC_SRCS = version.rc
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_2/xinput1_2.spec wine-staging-2.18.0/dlls/xinput1_2/xinput1_2.spec
+--- wine-staging-2.18.0.orig/dlls/xinput1_2/xinput1_2.spec	2017-10-06 09:02:37.762280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_2/xinput1_2.spec	2017-10-06 16:08:19.270381219 +0800
+@@ -1,5 +1,5 @@
+-@ stdcall XInputEnable(long)
+-@ stdcall XInputGetCapabilities(long long ptr)
+-@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr)
+-@ stdcall XInputSetState(long ptr)
+-@ stdcall XInputGetState(long ptr)
++@ stdcall XInputEnable(long) xinput1_3.Enable
++@ stdcall XInputGetCapabilities(long long ptr) xinput1_3.GetCapabilities
++@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr) xinput1_3.GetDSoundAudioDeviceGuids
++@ stdcall XInputSetState(long ptr) xinput1_3.SetState
++@ stdcall XInputGetState(long ptr) xinput1_3.GetState
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_3/Makefile.in wine-staging-2.18.0/dlls/xinput1_3/Makefile.in
+--- wine-staging-2.18.0.orig/dlls/xinput1_3/Makefile.in	2017-10-06 09:02:37.762280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_3/Makefile.in	2017-10-06 16:08:19.278381219 +0800
 @@ -1,5 +1,6 @@
  MODULE    = xinput1_3.dll
  IMPORTLIB = xinput
 +IMPORTS   = uuid dxguid dinput dinput8 ole32
  
  C_SRCS = \
- 	xinput1_3_main.c
-diff -Nur wine-devel-2.2.orig/dlls/xinput1_3/xinput1_3_main.c wine-devel-2.2/dlls/xinput1_3/xinput1_3_main.c
---- wine-devel-2.2.orig/dlls/xinput1_3/xinput1_3_main.c	2017-02-24 11:46:40.125633348 +0800
-+++ wine-devel-2.2/dlls/xinput1_3/xinput1_3_main.c	2017-02-25 13:01:03.717879317 +0800
+ 	xinput_main.c
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_3/xinput_main.c wine-staging-2.18.0/dlls/xinput1_3/xinput_main.c
+--- wine-staging-2.18.0.orig/dlls/xinput1_3/xinput_main.c	2017-10-06 09:02:37.774280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_3/xinput_main.c	2017-10-06 16:08:19.282381219 +0800
 @@ -1,6 +1,7 @@
  /*
   * The Wine project - Xinput Joystick Library
@@ -662,20 +712,51 @@ diff -Nur wine-devel-2.2.orig/dlls/xinput1_3/xinput1_3_main.c wine-devel-2.2/dll
 -    return ERROR_NOT_SUPPORTED;
 +    return ERROR_SUCCESS;
  }
-diff -Nur wine-devel-2.2.orig/dlls/xinput9_1_0/Makefile.in wine-devel-2.2/dlls/xinput9_1_0/Makefile.in
---- wine-devel-2.2.orig/dlls/xinput9_1_0/Makefile.in	2017-02-24 11:47:48.453632372 +0800
-+++ wine-devel-2.2/dlls/xinput9_1_0/Makefile.in	2017-02-25 13:01:03.717879317 +0800
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_4/Makefile.in wine-staging-2.18.0/dlls/xinput1_4/Makefile.in
+--- wine-staging-2.18.0.orig/dlls/xinput1_4/Makefile.in	2017-10-06 09:02:37.774280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_4/Makefile.in	2017-10-06 16:08:19.282381219 +0800
+@@ -1,7 +1,2 @@
+ MODULE    = xinput1_4.dll
+ PARENTSRC = ../xinput1_3
+-
+-C_SRCS = \
+-	xinput_main.c
+-
+-RC_SRCS = version.rc
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput1_4/xinput1_4.spec wine-staging-2.18.0/dlls/xinput1_4/xinput1_4.spec
+--- wine-staging-2.18.0.orig/dlls/xinput1_4/xinput1_4.spec	2017-10-06 09:02:37.774280425 +0800
++++ wine-staging-2.18.0/dlls/xinput1_4/xinput1_4.spec	2017-10-06 17:02:10.402393970 +0800
+@@ -1,9 +1,9 @@
+ 1 stdcall -private DllMain(long long ptr)
+-2 stdcall XInputGetState(long ptr)
+-3 stdcall XInputSetState(long ptr)
+-4 stdcall XInputGetCapabilities(long long ptr)
+-5 stdcall XInputEnable(long)
+-7 stdcall XInputGetBatteryInformation(long long ptr)
+-8 stdcall XInputGetKeystroke(long long ptr)
++2 stdcall XInputGetState(long ptr) xinput1_3.GetState
++3 stdcall XInputSetState(long ptr) xinput1_3.SetState
++4 stdcall XInputGetCapabilities(long long ptr) xinput1_3.GetCapabilities
++5 stdcall XInputEnable(long) xinput1_3.Enable
++7 stdcall XInputGetBatteryInformation(long long ptr) xinput1_3.GetBatteryInformation
++8 stdcall XInputGetKeystroke(long long ptr) xinput1_3.GetKeystroke
+ 10 stub XInputGetAudioDeviceIds(long ptr ptr ptr ptr)
+-100 stdcall XInputGetStateEx(long ptr)
++100 stdcall XInputGetStateEx(long ptr) xinput1_3.GetStateEx
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput9_1_0/Makefile.in wine-staging-2.18.0/dlls/xinput9_1_0/Makefile.in
+--- wine-staging-2.18.0.orig/dlls/xinput9_1_0/Makefile.in	2017-10-06 09:02:37.774280425 +0800
++++ wine-staging-2.18.0/dlls/xinput9_1_0/Makefile.in	2017-10-06 16:08:19.294381220 +0800
 @@ -1,7 +1,2 @@
  MODULE    = xinput9_1_0.dll
  PARENTSRC = ../xinput1_3
 -
 -C_SRCS = \
--	xinput1_3_main.c
+-	xinput_main.c
 -
 -RC_SRCS = version.rc
-diff -Nur wine-devel-2.2.orig/dlls/xinput9_1_0/xinput9_1_0.spec wine-devel-2.2/dlls/xinput9_1_0/xinput9_1_0.spec
---- wine-devel-2.2.orig/dlls/xinput9_1_0/xinput9_1_0.spec	2017-02-24 11:47:48.453632372 +0800
-+++ wine-devel-2.2/dlls/xinput9_1_0/xinput9_1_0.spec	2017-02-25 13:01:03.717879317 +0800
+diff -Nur -Nur wine-staging-2.18.0.orig/dlls/xinput9_1_0/xinput9_1_0.spec wine-staging-2.18.0/dlls/xinput9_1_0/xinput9_1_0.spec
+--- wine-staging-2.18.0.orig/dlls/xinput9_1_0/xinput9_1_0.spec	2017-10-06 09:02:37.774280425 +0800
++++ wine-staging-2.18.0/dlls/xinput9_1_0/xinput9_1_0.spec	2017-10-06 16:08:19.294381220 +0800
 @@ -1,4 +1,4 @@
 -@ stdcall XInputGetCapabilities(long long ptr)
 -@ stdcall XInputGetDSoundAudioDeviceGuids(long ptr ptr)
